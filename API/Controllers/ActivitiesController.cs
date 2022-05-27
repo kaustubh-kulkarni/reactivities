@@ -17,5 +17,13 @@ namespace API.Controllers
         {
             return await Mediator.Send(new Details.Query{Id = id});
         }
+
+        //Creating endpoint
+        [HttpPost]
+        //IActionResult gives access to Http response requests
+        public async Task<IActionResult> CreateActivity(Activity activity)
+        {
+            return Ok(await Mediator.Send(new Create.Command{Activity = activity}));
+        }
     }
 }
