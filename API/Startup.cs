@@ -1,4 +1,5 @@
 using Application.Activities;
+using Application.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -39,6 +40,8 @@ namespace API
             //Mediator service
             //List.Handle tells application to where to find the handler
             services.AddMediatR(typeof(List.Handler).Assembly);
+            //Add auto mapper
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
