@@ -1,15 +1,18 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Header, List, ListItem } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import { Activity } from "../models/activity";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
+import {v4 as uuid} from 'uuid';
 
 function App() {
   //Use state hook
   //[initial state, set the state]
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
+  const [selectedActivity, setSelectedActivity] = useState<
+    Activity | undefined
+  >(undefined);
   const [editMode, setEditMode] = useState(false);
 
   //Use effect hook for possible functions
@@ -29,30 +32,33 @@ function App() {
     setSelectedActivity(undefined);
   }
 
-  function handleFormOpen(id?: string){
+  function handleFormOpen(id?: string) {
     //If id is there get that id or else cancel it
     id ? handleSelectActivity(id) : handleCancelSelectActivity();
     setEditMode(true);
   }
 
-  function handleFormClose(){
+  function handleFormClose() {
     setEditMode(false);
   }
 
-  function handleCreateOrEditActivity(activity: Activity)
-  {
-    activity.id ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
-    : setActivities([...activities, activity]);
+  function handleCreateOrEditActivity(activity: Activity) {
+    activity.id
+      ? setActivities([
+          ...activities.filter((x) => x.id !== activity.id),
+          activity,
+        ])
+      : setActivities([...activities, {...activity, id: uuid()}]);
 
     setEditMode(false);
     setSelectedActivity(activity);
   }
 
   return (
-    <Fragment>
-      <NavBar openForm={handleFormOpen}/>
+    <div>
+      <NavBar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
-        <ActivityDashboard 
+        <ActivityDashboard
           activities={activities}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectActivity}
@@ -60,9 +66,10 @@ function App() {
           editMode={editMode}
           openForm={handleFormOpen}
           closeForm={handleFormClose}
-          createOrEdit={handleCreateOrEditActivity} />
+          createOrEdit={handleCreateOrEditActivity}
+        />
       </Container>
-    </Fragment>
+    </div>
   );
 }
 
