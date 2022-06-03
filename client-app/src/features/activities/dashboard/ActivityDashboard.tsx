@@ -2,22 +2,23 @@ import React from "react";
 import { Grid, List } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import ActivityDetails from "../details/ActivityDetails";
+import ActivityForm from "../form/ActivityForm";
 import ActivityList from "./ActivityList";
 
 interface Props {
-    activities: Activity[];
+  activities: Activity[];
 }
 
-export default function ActivityDashboard({activities}: Props){
-    return (
-        <Grid>
-            <Grid.Column width={10}>
-               <ActivityList activities={activities} />
-            </Grid.Column>
-            <Grid.Column width={6}>
-                {activities[2] &&
-                <ActivityDetails activity={activities[2]} />}
-            </Grid.Column>
-        </Grid>
-    )
+export default function ActivityDashboard({ activities }: Props) {
+  return (
+    <Grid>
+      <Grid.Column width={10}>
+        <ActivityList activities={activities} />
+      </Grid.Column>
+      <Grid.Column width={6}>
+        {activities[2] && <ActivityDetails activity={activities[2]} />}
+        <ActivityForm />
+      </Grid.Column>
+    </Grid>
+  );
 }
