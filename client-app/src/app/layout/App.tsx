@@ -10,6 +10,7 @@ function App() {
   //[initial state, set the state]
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
+  const [editMode, setEditMode] = useState(false);
 
   //Use effect hook for possible functions
   useEffect(() => {
@@ -28,15 +29,28 @@ function App() {
     setSelectedActivity(undefined);
   }
 
+  function handleFormOpen(id?: string){
+    //If id is there get that id or else cancel it
+    id ? handleSelectActivity(id) : handleCancelSelectActivity();
+    setEditMode(true);
+  }
+
+  function handleFormClose(){
+    setEditMode(false);
+  }
+
   return (
     <Fragment>
-      <NavBar />
+      <NavBar openForm={handleFormOpen}/>
       <Container style={{ marginTop: "7em" }}>
         <ActivityDashboard 
           activities={activities}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelSelectActivity} />
+          cancelSelectActivity={handleCancelSelectActivity}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose} />
       </Container>
     </Fragment>
   );
