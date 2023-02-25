@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Persistance;
+using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,8 @@ try
     //Here need to get the DataContext service in order to perform the migration
     var context = services.GetRequiredService<DataContext>();
     //Migrate the DB
-    context.Database.Migrate();
+    await context.Database.MigrateAsync();
+    await Seed.SeedData(context);
 }
 catch (Exception ex)
 {
