@@ -1,6 +1,7 @@
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Persistance;
 
 namespace Application.Activities
@@ -8,8 +9,8 @@ namespace Application.Activities
     //Query handler
     public class List
     {
-       //Query class inherits IRequest from MediatR and we pass list of activity as param
-       public class Query: IRequest<List<Activity>> {}
+        //Query class inherits IRequest from MediatR and we pass list of activity as param
+        public class Query : IRequest<List<Activity>> { }
 
         public class Handler : IRequestHandler<Query, List<Activity>>
         {
