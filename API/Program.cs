@@ -1,3 +1,5 @@
+using Application.Activities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistance;
 using Persistence;
@@ -14,6 +16,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(opt => {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+//Cors policy for cross data transfer
+builder.Services.AddCors(opt => {
+    opt.AddPolicy("CorsPolicy", policy =>{
+        policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+    }); 
+});
+//IMediator service with handlers
+builder.Services.AddMediatR(typeof(List.Handler));
 
 var app = builder.Build();
 
@@ -24,6 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.UseAuthorization();
 app.MapControllers();
 
